@@ -78,10 +78,9 @@
 <table class="table table-striped">
     <thead>
     <tr>
-        <th scope="col">Length of the captured substring</th>
-        <th scope="col">Start index of captured substring</th>
         <th scope="col">Captured substring</th>
-        <th scope="col">Capturing group name</th>
+        <th scope="col">Start index of captured substring</th>
+        <th scope="col">Length of the captured substring</th>
     </tr>
     </thead>
     <tbody>
@@ -89,10 +88,9 @@
     @foreach (Match m in _matchCollection)
     {
         <tr>
-            <td>@m.Length</td>
-            <td>@m.Index</td>
             <td>@m.Value</td>
-            <td>@m.Name</td>
+            <td>@m.Index</td>
+            <td>@m.Length</td>
         </tr>
     }
     </tbody>
