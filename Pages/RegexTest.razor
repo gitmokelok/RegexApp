@@ -1,0 +1,127 @@
+﻿@page "/"
+@using System.Text.RegularExpressions
+
+<PageTitle>.Net Regex Hub</PageTitle>
+
+<h1>.NET Regex Hub</h1>
+
+<p>Here you can test your regular expression.</p>
+
+<form class="row g-3">
+
+    <div class="col-md-8">
+        <label for="regexPattern" class="form-label">Regex pattern:</label>
+        <textarea class="form-control" id="regexPattern" @bind-value="Pattern" @bind-value:event="oninput"></textarea>
+    </div>
+@*    This is hidden part with adding Regex Options => to be implemented during next iteration.*@
+    @*<fieldset class="col-md-8" hidden>
+        <legend>Regex options:</legend>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption1" bind-value=""/>
+            <label class="form-check-label" for="regexOption1" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that cultural differences in language is ignored.">CultureInvariant</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption2"/>
+            <label class="form-check-label" for="regexOption2" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that the only valid captures are explicitly named or numbered groups of the form (?<name>...). This allows unnamed parentheses to act as noncapturing groups without the syntactic clumsiness of the expression (?:...).">ExplicitCapture</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption3"/>
+            <label class="form-check-label" for="regexOption3" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies case-insensitive matching.">IgnoreCase</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption4"/>
+            <label class="form-check-label" for="regexOption4" data-bs-toggle="tooltip" data-bs-html="true" title="Eliminates unescaped white space from the pattern and enables comments marked with #. However, this value does not affect or eliminate white space in character classes, numeric quantifiers, or tokens that mark the beginning of individual regular expression language elements.">IgnorePatternWhitespace</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption5"/>
+            <label class="form-check-label" for="regexOption5" data-bs-toggle="tooltip" data-bs-html="true" title="Multiline mode. Changes the meaning of ^ and $ so they match at the beginning and end, respectively, of any line, and not just the beginning and end of the entire string.">Multiline</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption6"/>
+            <label class="form-check-label" for="regexOption6" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that no options are set.">None</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption7"/>
+            <label class="form-check-label" for="regexOption7" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that the search will be from right to left instead of from left to right.">RightToLeft</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption8"/>
+            <label class="form-check-label" for="regexOption8" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies single-line mode. Changes the meaning of the dot (.) so it matches every character (instead of every character except \n).">Singleline</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="regexOption9"/>
+            <label class="form-check-label" for="regexOption9" data-bs-toggle="tooltip" data-bs-html="true" title="Enables ECMAScript-compliant behavior for the expression. This value can be used only in conjunction with the IgnoreCase, Multiline, and Compiled values. The use of this value with any other values results in an exception.">ECMAScript</label>
+        </div>
+    </fieldset>*@
+
+        <div class="col-md-8">
+            <label for="targetText" class="form-label">Input text:</label>
+            <textarea class="form-control" id="targetText" @bind-value="Input" @bind-value:event="oninput"></textarea>
+        </div>
+</form>
+<br>
+<br>
+<fieldset disabled >
+    <div class="col-md-8">
+
+        <label for="enteredRegexPattern" class="form-label">Entered regex pattern:</label>
+        <input type="text" class="form-control" id="enteredRegexPattern" placeholder="@Pattern">
+        
+        <label for="enteredInputText" class="form-label">Entered target text:</label>
+        <input type="text" class="form-control" id="enteredInputText" placeholder="@Input">
+
+    </div>
+</fieldset>
+<br/>
+<br/>
+
+<table class="table table-striped">
+    <thead>
+    <tr>
+        <th scope="col">Length of the captured substring</th>
+        <th scope="col">Start index of captured substring</th>
+        <th scope="col">Captured substring</th>
+        <th scope="col">Capturing group name</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    @foreach (Match m in _matchCollection)
+    {
+        <tr>
+            <td>@m.Length</td>
+            <td>@m.Index</td>
+            <td>@m.Value</td>
+            <td>@m.Name</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
+
+@code {
+
+    string _pattern = string.Empty;
+    string Pattern
+    {
+        get => _pattern;
+        set
+        {
+            _pattern = value;
+            _matchCollection = Regex.Matches(_input, value);
+        }
+    }
+    string _input = string.Empty;
+    string Input
+    {
+        get => _input;
+        set
+        {
+            _input = value;
+            _matchCollection = Regex.Matches(value, _pattern);
+        }
+    }
+
+    MatchCollection _matchCollection = Regex.Matches(string.Empty,string.Empty);
+}
