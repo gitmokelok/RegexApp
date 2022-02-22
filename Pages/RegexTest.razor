@@ -14,50 +14,69 @@
         <textarea class="form-control" id="regexPattern" @bind-value="Pattern" @bind-value:event="oninput"></textarea>
     </div>
 @*    This is hidden part with adding Regex Options => to be implemented during next iteration.*@
-    @*<fieldset class="col-md-8" hidden>
-        <legend>Regex options:</legend>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption1" bind-value=""/>
-            <label class="form-check-label" for="regexOption1" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that cultural differences in language is ignored.">CultureInvariant</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption2"/>
-            <label class="form-check-label" for="regexOption2" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that the only valid captures are explicitly named or numbered groups of the form (?<name>...). This allows unnamed parentheses to act as noncapturing groups without the syntactic clumsiness of the expression (?:...).">ExplicitCapture</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption3"/>
-            <label class="form-check-label" for="regexOption3" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies case-insensitive matching.">IgnoreCase</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption4"/>
-            <label class="form-check-label" for="regexOption4" data-bs-toggle="tooltip" data-bs-html="true" title="Eliminates unescaped white space from the pattern and enables comments marked with #. However, this value does not affect or eliminate white space in character classes, numeric quantifiers, or tokens that mark the beginning of individual regular expression language elements.">IgnorePatternWhitespace</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption5"/>
-            <label class="form-check-label" for="regexOption5" data-bs-toggle="tooltip" data-bs-html="true" title="Multiline mode. Changes the meaning of ^ and $ so they match at the beginning and end, respectively, of any line, and not just the beginning and end of the entire string.">Multiline</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption6"/>
-            <label class="form-check-label" for="regexOption6" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that no options are set.">None</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption7"/>
-            <label class="form-check-label" for="regexOption7" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies that the search will be from right to left instead of from left to right.">RightToLeft</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption8"/>
-            <label class="form-check-label" for="regexOption8" data-bs-toggle="tooltip" data-bs-html="true" title="Specifies single-line mode. Changes the meaning of the dot (.) so it matches every character (instead of every character except \n).">Singleline</label>
-        </div>
-        <div class="form-check">
-            <input type="checkbox" name="regexOptions" id="regexOption9"/>
-            <label class="form-check-label" for="regexOption9" data-bs-toggle="tooltip" data-bs-html="true" title="Enables ECMAScript-compliant behavior for the expression. This value can be used only in conjunction with the IgnoreCase, Multiline, and Compiled values. The use of this value with any other values results in an exception.">ECMAScript</label>
-        </div>
-    </fieldset>*@
+    
 
-        <div class="col-md-8">
-            <label for="targetText" class="form-label">Input text:</label>
-            <textarea class="form-control" id="targetText" @bind-value="Input" @bind-value:event="oninput"></textarea>
+<div class="col-md-8">
+    <label for="targetText" class="form-label">Input text:</label>
+    <textarea rows="9" style="height:100%" class="form-control" id="targetText" @bind-value="Input" @bind-value:event="oninput"></textarea>
+</div>
+
+<fieldset class="col-md-4">
+    <legend>Regex options:</legend>
+    <div class="form-check">
+        <input type="checkbox" name="regexOptions" id="regexNoneOption" @bind="NoneOption"/>
+        <label class="form-check-label" for="regexNoneOption" data-bs-toggle="tooltip" title="Specifies that no options are set.">None</label>
+    </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="CultureInvariantOption" @bind="CultureInvariantOption"/>
+            <label class="form-check-label" for="CultureInvariantOption" data-bs-toggle="tooltip" 
+                   title="Specifies that cultural differences in 
+                            language is ignored.">CultureInvariant</label>
         </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="ExplicitCaptureOption" @bind="ExplicitCaptureOption"/>
+            <label class="form-check-label" for="ExplicitCaptureOption" data-bs-toggle="tooltip" data-bs-html="true" 
+                   title="Specifies that the only valid captures are explicitly named or numbered groups of the form (?<name>...). 
+                            This allows unnamed parentheses to act as noncapturing groups without the syntactic clumsiness 
+                            of the expression (?:...).">ExplicitCapture</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="IgnoreCaseOption" @bind="IgnoreCaseOption"/>
+            <label class="form-check-label" for="IgnoreCaseOption" data-bs-toggle="tooltip" 
+                   title="Specifies case-insensitive matching.">IgnoreCase</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="IgnorePatternWhitespace" @bind="IgnorePatternWhitespace"/>
+            <label class="form-check-label" for="IgnorePatternWhitespace" data-bs-toggle="tooltip" 
+                   title="Eliminates unescaped white space from the pattern and enables comments marked with #. 
+                            However, this value does not affect or eliminate white space in character classes, numeric quantifiers, 
+                            or tokens that mark the beginning of individual regular expression language elements.">IgnorePatternWhitespace</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="MultilineOption" @bind="MultilineOption"/>
+            <label class="form-check-label" for="MultilineOption" data-bs-toggle="tooltip"
+                   title="Multiline mode. Changes the meaning of ^ and $ so they match at the beginning and end, respectively, of 
+                            any line, and not just the beginning and end of the entire string.">Multiline</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="RightToLeftOption" @bind="RightToLeftOption"/>
+            <label class="form-check-label" for="RightToLeftOption" data-bs-toggle="tooltip"
+                   title="Specifies that the search will be from right to left instead of from left to right.">RightToLeft</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="SinglelineOption" @bind="SinglelineOption"/>
+            <label class="form-check-label" for="SinglelineOption" data-bs-toggle="tooltip" 
+                   title="Specifies single-line mode. Changes the meaning of the dot (.) so it matches every character 
+                            (instead of every character except \n).">Singleline</label>
+        </div>
+        <div class="form-check">
+            <input type="checkbox" name="regexOptions" id="ECMAScriptOption" @bind="EcmaScriptOption"/>
+            <label class="form-check-label" for="ECMAScriptOption" data-bs-toggle="tooltip" 
+                   title="Enables ECMAScript-compliant behavior for the expression. 
+                            This value can be used only in conjunction with the IgnoreCase, Multiline, and Compiled values. 
+                            The use of this value with any other values results in an exception.">ECMAScript</label>
+        </div>
+    </fieldset>
 </form>
 <br>
 <br>
@@ -100,18 +119,157 @@
 
 @code {
 
-    string _pattern = string.Empty;
-    string Pattern
+    private bool _noneOption = true;
+    private bool NoneOption 
+    { 
+        get => _noneOption;
+        set
+        {
+            _noneOption = value;
+            if (value)
+            {
+                CultureInvariantOption = false;
+                ExplicitCaptureOption = false;
+                IgnoreCaseOption = false;
+                IgnorePatternWhitespace = false;
+                MultilineOption = false;
+                RightToLeftOption = false;
+                SinglelineOption = false;
+                EcmaScriptOption = false;
+            }
+        }
+    }
+
+    private bool _cultureInvariant = false;
+    public bool CultureInvariantOption
+    {
+        get => _cultureInvariant;
+        set
+        {
+            _cultureInvariant = value;
+            if (value) NoneOption = false;;
+        }
+    }
+
+    private bool _explicitCaptureOption = false;
+    public bool ExplicitCaptureOption
+    {
+        get => _explicitCaptureOption;
+        set
+        {
+            _explicitCaptureOption = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+    private bool _ignoreCaseOption = false;
+
+    public bool IgnoreCaseOption
+    {
+        get => _ignoreCaseOption;
+        set
+        {
+            _ignoreCaseOption = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+    private bool _ignorePatternWhitespace;
+    public bool IgnorePatternWhitespace
+    {
+        get => _ignorePatternWhitespace;
+        set
+        {
+            _ignorePatternWhitespace = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+    private bool _multilineOption = false;
+    public bool MultilineOption
+    {
+        get => _multilineOption;
+        set
+        {
+            _multilineOption = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+    private bool _rightToLeftOption;
+    
+    public bool RightToLeftOption
+    {
+        get => _rightToLeftOption;
+        set
+        {
+            _rightToLeftOption = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+    private bool _singlelineOption;
+
+    public bool SinglelineOption
+    {
+        get => _singlelineOption;
+        set
+        {
+            _singlelineOption = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+    private bool _ecmaScriptOption = false;
+
+    public bool EcmaScriptOption
+    {
+        get => _ecmaScriptOption;
+        set
+        {
+            _ecmaScriptOption = value;
+            if (value) NoneOption = false;
+        }
+    }
+
+
+    public RegexOptions RegexOptionsCollection
+    {
+        get => _regexOptionsCollection;
+        set => _regexOptionsCollection = value;
+    }
+
+
+
+    private string _pattern = string.Empty;
+    public string Pattern
     {
         get => _pattern;
         set
         {
             _pattern = value;
-            _matchCollection = Regex.Matches(_input, value);
+            ////CultureInvariantOption = false;
+            //ExplicitCaptureOption = false;
+            //IgnoreCaseOption = false;
+            //IgnorePatternWhitespace = false;
+            //MultilineOption = false;
+            //RightToLeftOption = false;
+            //SinglelineOption = false;
+            //EcmaScriptOption = false;
+            RegexOptionsCollection = RegexOptions.None;
+            if (CultureInvariantOption) RegexOptionsCollection |= RegexOptions.CultureInvariant;
+            if (ExplicitCaptureOption) RegexOptionsCollection |= RegexOptions.ExplicitCapture;
+            if (IgnoreCaseOption) RegexOptionsCollection |= RegexOptions.IgnoreCase;
+            if (IgnorePatternWhitespace) RegexOptionsCollection |= RegexOptions.IgnorePatternWhitespace;
+            if (MultilineOption) RegexOptionsCollection |= RegexOptions.Multiline;
+            if (RightToLeftOption) RegexOptionsCollection |= RegexOptions.RightToLeft;    
+            if (SinglelineOption) RegexOptionsCollection |= RegexOptions.Singleline;
+            _matchCollection = Regex.Matches(_input, value, RegexOptionsCollection);
+
         }
     }
-    string _input = string.Empty;
-    string Input
+    private string _input = string.Empty;
+    public string Input
     {
         get => _input;
         set
@@ -122,4 +280,6 @@
     }
 
     MatchCollection _matchCollection = Regex.Matches(string.Empty,string.Empty);
+    private RegexOptions _regexOptionsCollection = RegexOptions.None;
+    
 }
