@@ -94,30 +94,46 @@
 <br/>
 <br/>
 
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th scope="col">Captured substring</th>
-        <th scope="col">Start index of captured substring</th>
-        <th scope="col">Length of the captured substring</th>
-    </tr>
-    </thead>
-    <tbody>
-
-    @foreach (Match m in _matchCollection)
-    {
+@if (regexFailed)
+{
+    <div class="alert alert-danger" role="alert">
+        @ErrorMessage
+    </div>
+}
+else
+{
+    <table class="table table-striped">
+        <thead>
         <tr>
-            <td>@m.Value</td>
-            <td>@m.Index</td>
-            <td>@m.Length</td>
+            <th scope="col">Captured substring</th>
+            <th scope="col">Start index of captured substring</th>
+            <th scope="col">Length of the captured substring</th>
         </tr>
-    }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+
+        @foreach (Match m in _matchCollection)
+        {
+            <tr>
+                <td>@m.Value</td>
+                <td>@m.Index</td>
+                <td>@m.Length</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
 
 
 
 @code {
+
+    public string? ErrorMessage;
+    private bool regexFailed;
+
+    MatchCollection _matchCollection = Regex.Matches(string.Empty,string.Empty);
+    private RegexOptions _regexOptionsCollection = RegexOptions.None;
 
     private bool _noneOption = true;
     private bool NoneOption 
@@ -248,14 +264,7 @@
         set
         {
             _pattern = value;
-            ////CultureInvariantOption = false;
-            //ExplicitCaptureOption = false;
-            //IgnoreCaseOption = false;
-            //IgnorePatternWhitespace = false;
-            //MultilineOption = false;
-            //RightToLeftOption = false;
-            //SinglelineOption = false;
-            //EcmaScriptOption = false;
+
             RegexOptionsCollection = RegexOptions.None;
             if (CultureInvariantOption) RegexOptionsCollection |= RegexOptions.CultureInvariant;
             if (ExplicitCaptureOption) RegexOptionsCollection |= RegexOptions.ExplicitCapture;
@@ -264,10 +273,10 @@
             if (MultilineOption) RegexOptionsCollection |= RegexOptions.Multiline;
             if (RightToLeftOption) RegexOptionsCollection |= RegexOptions.RightToLeft;    
             if (SinglelineOption) RegexOptionsCollection |= RegexOptions.Singleline;
-            _matchCollection = Regex.Matches(_input, value, RegexOptionsCollection);
-
+            ExtractFoundMatches(value, Input, RegexOptionsCollection);
         }
     }
+
     private string _input = string.Empty;
     public string Input
     {
@@ -275,11 +284,34 @@
         set
         {
             _input = value;
-            _matchCollection = Regex.Matches(value, _pattern);
+            RegexOptionsCollection = RegexOptions.None;
+            if (CultureInvariantOption) RegexOptionsCollection |= RegexOptions.CultureInvariant;
+            if (ExplicitCaptureOption) RegexOptionsCollection |= RegexOptions.ExplicitCapture;
+            if (IgnoreCaseOption) RegexOptionsCollection |= RegexOptions.IgnoreCase;
+            if (IgnorePatternWhitespace) RegexOptionsCollection |= RegexOptions.IgnorePatternWhitespace;
+            if (MultilineOption) RegexOptionsCollection |= RegexOptions.Multiline;
+            if (RightToLeftOption) RegexOptionsCollection |= RegexOptions.RightToLeft;    
+            if (SinglelineOption) RegexOptionsCollection |= RegexOptions.Singleline;
+            ExtractFoundMatches(Pattern, value, RegexOptionsCollection);
+            //_matchCollection = Regex.Matches(value, _pattern);
         }
     }
 
-    MatchCollection _matchCollection = Regex.Matches(string.Empty,string.Empty);
-    private RegexOptions _regexOptionsCollection = RegexOptions.None;
-    
+    private void ExtractFoundMatches(string regexPattern, string inputTargetText, RegexOptions regexOptions)
+    {
+        try
+        {
+            _matchCollection = Regex.Matches(inputTargetText, regexPattern, RegexOptionsCollection);
+            regexFailed = false;
+        }
+        catch (Exception e)
+        {
+            regexFailed = true;
+            if (e is RegexParseException or RegexMatchTimeoutException)
+            {
+                regexFailed = true;
+                ErrorMessage = e.Message;
+            }
+        }
+    }
 }
